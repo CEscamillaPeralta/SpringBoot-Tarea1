@@ -17,52 +17,52 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cristiane.tareauno.exception.ModelNotFoundException;
-import com.cristiane.tareauno.model.Alumno;
-import com.cristiane.tareauno.service.AlumnoService;
+import com.cristiane.tareauno.model.Clase;
+import com.cristiane.tareauno.service.ClaseService;
 
 @RestController
-@RequestMapping("/alumnos")
-public class AlumnoController {
+@RequestMapping("/clases")
+public class ClaseController {
 
 	@Autowired
-	private AlumnoService alumnoService;
+	private ClaseService claseService;
 
 	@GetMapping
-	public ResponseEntity<List<Alumno>> listar() {
-		List<Alumno> lista = alumnoService.listar();
-		return new ResponseEntity<List<Alumno>>(lista, HttpStatus.OK);
+	public ResponseEntity<List<Clase>> listar() {
+		List<Clase> lista = claseService.listar();
+		return new ResponseEntity<List<Clase>>(lista, HttpStatus.OK);
 	}
 
 	@PostMapping
-	public ResponseEntity<Alumno> registrar(@Valid @RequestBody Alumno alumno) {
-		Alumno alu = alumnoService.registrar(alumno);
-		return new ResponseEntity<Alumno>(alu, HttpStatus.OK);
+	public ResponseEntity<Clase> registrar(@Valid @RequestBody Clase clase) {
+		Clase cla = claseService.registrar(clase);
+		return new ResponseEntity<Clase>(cla, HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Object> eliminar(@PathVariable("id") Integer id) {
-		Alumno alu = alumnoService.leerPorId(id);
-		if (alu.getIdAlumno() == null) {
+		Clase cla = claseService.leerPorId(id);
+		if (cla.getIdClase() == null) {
 			throw new ModelNotFoundException("NO SE ENCUENTRA EL ID " + id);
 		}
-		alumnoService.eliminar(id);
+		claseService.eliminar(id);
 		return new ResponseEntity<Object>(HttpStatus.OK);
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Alumno> listarPorId(@PathVariable("id") Integer id) {
+	public ResponseEntity<Clase> listarPorId(@PathVariable("id") Integer id) {
 		if (id != null && id > 0) {
-			Alumno alu = alumnoService.leerPorId(id);
-			return new ResponseEntity<Alumno>(alu, HttpStatus.OK);
+			Clase cla = claseService.leerPorId(id);
+			return new ResponseEntity<Clase>(cla, HttpStatus.OK);
 		}
 		{
-			return new ResponseEntity<Alumno>(new Alumno(), HttpStatus.NOT_FOUND);
+			return new ResponseEntity<Clase>(new Clase(), HttpStatus.NOT_FOUND);
 		}
 	}
 
 	@PutMapping
-	public ResponseEntity<Alumno> modificar(@Valid @RequestBody Alumno alumno) {
-		Alumno alu = alumnoService.modificar(alumno);
-		return new ResponseEntity<Alumno>(alu, HttpStatus.OK);
+	public ResponseEntity<Clase> modificar(@Valid @RequestBody Clase clase) {
+		Clase cla = claseService.modificar(clase);
+		return new ResponseEntity<Clase>(cla, HttpStatus.OK);
 	}
 }
